@@ -1,0 +1,3 @@
+package cpuset
+
+const Version = ""
