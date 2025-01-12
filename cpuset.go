@@ -55,7 +55,7 @@ func (s *CPUSet) Contains(cpu uint) bool {
 func (s *CPUSet) UnsortedList() []uint {
 	cpus := make([]uint, len(s.m))
 	i := 0
-	for cpu, _ := range s.m {
+	for cpu := range s.m {
 		cpus[i] = cpu
 		i++
 	}
