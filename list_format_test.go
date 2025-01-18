@@ -22,6 +22,11 @@ func TestParseList(t *testing.T) {
 			err:  formatParseError("a", `invalid element "a"`),
 		},
 		{
+			name: `invalid element "^"`,
+			s:    "^",
+			err:  formatParseError("^", `invalid element "^"`),
+		},
+		{
 			name: `invalid lower bound "" in range "-1"`,
 			s:    "-1",
 			err:  formatParseError("-1", `invalid lower bound "" in range "-1"`),
@@ -65,6 +70,11 @@ func TestParseList(t *testing.T) {
 			name: "bits 0, 1, 2, 7, 12, 13, and 14 set",
 			s:    "0-2,7,12-14",
 			want: Of(0, 1, 2, 7, 12, 13, 14),
+		},
+		{
+			name: "bits 1, 2, 4, and 6 set",
+			s:    "1-4,^3,6",
+			want: Of(1, 2, 4, 6),
 		},
 	} {
 		t.Run(params.name, func(t *testing.T) {

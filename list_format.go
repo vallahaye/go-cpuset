@@ -21,12 +21,18 @@ func ParseList(s string) (CPUSet, error) {
 		parts := strings.Split(elem, "-")
 		switch len(parts) {
 		case 1:
+			part, exclude := strings.CutPrefix(parts[0], "^")
+
 			var cpu uint
-			if _, err := fmt.Sscan(parts[0], &cpu); err != nil {
+			if _, err := fmt.Sscan(part, &cpu); err != nil {
 				return CPUSet{}, formatParseError(s, fmt.Sprintf("invalid element %q", elem))
 			}
 
-			cpus = append(cpus, cpu)
+			if exclude {
+				cpus = slices.DeleteFunc(cpus, func(v uint) bool { return v == cpu })
+			} else {
+				cpus = append(cpus, cpu)
+			}
 
 		case 2:
 			var lowerBound uint
