@@ -20,12 +20,26 @@ functions (difference, intersection, ...) and formatted back to string.
 - Manage cpusets in the Linux kernel (similar to SUSE's
 [cset](https://github.com/SUSE/cpuset) command-line tool)
 
-## Install
+## Installation
 
-Install the `cpuset` command-line tool using the Go toolchain:
+Install the `cpuset` command-line tool through
+[GitHub Releases](https://github.com/vallahaye/go-cpuset/releases):
 
 ```shell
-go install go.vallahaye.net/cpuset/cmd/cpuset@latest
+wget -q -O /usr/local/bin/cpuset "https://github.com/vallahaye/go-cpuset/releases/latest/download/cpuset-$(uname -s)-$(uname -m)" && \
+chmod +x /usr/local/bin/cpuset
+```
+
+Or using the Go toolchain:
+
+```shell
+GOBIN=/usr/local/bin go install go.vallahaye.net/cpuset/cmd/cpuset@latest
+```
+
+To uninstall the `cpuset` command-line tool, run:
+
+```shell
+rm -f /usr/local/bin/cpuset
 ```
 
 ## Example
