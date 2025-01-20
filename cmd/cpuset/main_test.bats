@@ -8,7 +8,7 @@ function cpuset() {
 
 @test "print help and exit" {
   run -0 cpuset -help
-  [[ "$lines[0]" = 'Usage: cpuset '* ]]
+  [[ "${lines[0]}" = 'Usage: cpuset '* ]]
 }
 
 @test "print version and exit" {
@@ -42,13 +42,13 @@ function cpuset() {
 
 @test "s1 provided but invalid" {
   run -1 cpuset difference s1 8-16
-  [[ "${lines[0]}" =~ 's1 provided but invalid:'* ]]
+  [[ "${lines[0]}" = 's1 provided but invalid:'* ]]
   [[ "${lines[-1]}" = 'exit status 2' ]]
 }
 
 @test "s2 provided but invalid" {
   run -1 cpuset difference 0-32 s2
-  [[ "${lines[0]}" =~ 's2 provided but invalid:'* ]]
+  [[ "${lines[0]}" = 's2 provided but invalid:'* ]]
   [[ "${lines[-1]}" = 'exit status 2' ]]
 }
 

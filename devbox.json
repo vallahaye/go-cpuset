@@ -3,14 +3,20 @@
   "packages": [
     "go@1.23.4",
     "bats@1.11.1",
-    "goreleaser@2.5.1"
+    "goreleaser@2.5.1",
+    "golangci-lint@1.63.4",
+    "shellcheck@0.10.0"
   ],
   "shell": {
     "init_hook": [],
     "scripts": {
+      "lint": [
+        "golangci-lint run ./...",
+        "git ls-files '*.bats' '*.sh' | xargs shellcheck"
+      ],
       "test": [
         "go test -v ./...",
-        "bats cmd/cpuset/main_test.bats"
+        "bats ./cmd/cpuset"
       ],
       "release": ["goreleaser release"]
     }
