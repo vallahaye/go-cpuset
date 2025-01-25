@@ -3,43 +3,53 @@ package cpuset
 import (
 	"fmt"
 	"slices"
+	"strconv"
 	"strings"
 )
 
-const wordBitSize = 32
+const (
+	wordLen     = 8
+	wordBase    = 16
+	wordBitSize = 32
+)
+
+var wordFormat = fmt.Sprintf("%%0%dx", wordLen)
 
 // ParseMask decodes s into a [CPUSet]. It returns an error if s is not a valid
 // mask string, as specified in the [Linux cpuset(7) man page] (see "Mask
 // Format").
 //
 // [Linux cpuset(7) man page]: https://man7.org/linux/man-pages/man7/cpuset.7.html
-func ParseMask(s string) (CPUSet, error) {
+func ParseMask(s string) (cset CPUSet, _ error) {
 	if s == "" {
 		return CPUSet{}, nil
 	}
 
-	var cpus []uint
 	words := strings.Split(s, ",")
 	for i, word := range words {
-		var cpuMask uint32
-		if _, err := fmt.Sscanf(word, "%x", &cpuMask); err != nil {
+		if len(word) != wordLen {
 			return CPUSet{}, formatParseError(s, fmt.Sprintf("invalid 32-bit word %q", word))
 		}
 
-		offset := (len(words) - i - 1) * wordBitSize
+		ui64, err := strconv.ParseUint(word, wordBase, wordBitSize)
+		if err != nil {
+			return CPUSet{}, formatParseError(s, fmt.Sprintf("invalid 32-bit word %q", word))
+		}
+
+		cpuMask, offset := uint32(ui64), (len(words)-i-1)*wordBitSize
 		for pos := range wordBitSize {
 			if cpuMask&(1<<pos) != 0 {
-				cpus = append(cpus, uint(pos+offset))
+				cset.Add(uint(pos + offset))
 			}
 		}
 	}
 
-	return Of(cpus...), nil
+	return cset, nil
 }
 
 // MaskString encodes s into a mask string.
 func (s *CPUSet) MaskString() string {
-	if len(s.m) == 0 {
+	if s.Len() == 0 {
 		return ""
 	}
 
@@ -52,7 +62,7 @@ func (s *CPUSet) MaskString() string {
 
 	words := make([]string, len(cpuMasks))
 	for i, cpuMask := range cpuMasks {
-		words[i] = fmt.Sprintf("%08x", cpuMask)
+		words[i] = fmt.Sprintf(wordFormat, cpuMask)
 	}
 
 	return strings.Join(words, ",")

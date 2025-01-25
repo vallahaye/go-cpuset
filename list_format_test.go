@@ -17,14 +17,19 @@ func TestParseList(t *testing.T) {
 			err:  formatParseError(",", `invalid element ""`),
 		},
 		{
+			name: `invalid element "^"`,
+			s:    "^",
+			err:  formatParseError("^", `invalid element "^"`),
+		},
+		{
 			name: `invalid element "a"`,
 			s:    "a",
 			err:  formatParseError("a", `invalid element "a"`),
 		},
 		{
-			name: `invalid element "^"`,
-			s:    "^",
-			err:  formatParseError("^", `invalid element "^"`),
+			name: `invalid element "0a"`,
+			s:    "0a",
+			err:  formatParseError("0a", `invalid element "0a"`),
 		},
 		{
 			name: `invalid lower bound "" in range "-1"`,
@@ -37,14 +42,24 @@ func TestParseList(t *testing.T) {
 			err:  formatParseError("a-1", `invalid lower bound "a" in range "a-1"`),
 		},
 		{
-			name: `invalid upper bound "" in range "1-"`,
-			s:    "1-",
-			err:  formatParseError("1-", `invalid upper bound "" in range "1-"`),
+			name: `invalid lower bound "0a" in range "0a-1"`,
+			s:    "0a-1",
+			err:  formatParseError("0a-1", `invalid lower bound "0a" in range "0a-1"`),
 		},
 		{
-			name: `invalid upper bound "b" in range "1-b"`,
-			s:    "1-b",
-			err:  formatParseError("1-b", `invalid upper bound "b" in range "1-b"`),
+			name: `invalid upper bound "" in range "0-"`,
+			s:    "0-",
+			err:  formatParseError("0-", `invalid upper bound "" in range "0-"`),
+		},
+		{
+			name: `invalid upper bound "b" in range "0-b"`,
+			s:    "0-b",
+			err:  formatParseError("0-b", `invalid upper bound "b" in range "0-b"`),
+		},
+		{
+			name: `invalid upper bound "1b" in range "0-1b"`,
+			s:    "0-1b",
+			err:  formatParseError("0-1b", `invalid upper bound "1b" in range "0-1b"`),
 		},
 		{
 			name: `negative range "1-0"`,

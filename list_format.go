@@ -2,8 +2,15 @@ package cpuset
 
 import (
 	"fmt"
+	"math/bits"
 	"slices"
+	"strconv"
 	"strings"
+)
+
+const (
+	partBase    = 10
+	partBitSize = bits.UintSize
 )
 
 // ParseList decodes s into a [CPUSet]. It returns an error if s is not a valid
@@ -11,46 +18,48 @@ import (
 // Format").
 //
 // [Linux cpuset(7) man page]: https://man7.org/linux/man-pages/man7/cpuset.7.html
-func ParseList(s string) (CPUSet, error) {
+func ParseList(s string) (cset CPUSet, _ error) {
 	if s == "" {
 		return CPUSet{}, nil
 	}
 
-	var cpus []uint
 	for _, elem := range strings.Split(s, ",") {
-		parts := strings.Split(elem, "-")
-		switch len(parts) {
+		switch parts := strings.Split(elem, "-"); len(parts) {
 		case 1:
 			part, exclude := strings.CutPrefix(parts[0], "^")
 
-			var cpu uint
-			if _, err := fmt.Sscan(part, &cpu); err != nil {
+			ui64, err := strconv.ParseUint(part, partBase, partBitSize)
+			if err != nil {
 				return CPUSet{}, formatParseError(s, fmt.Sprintf("invalid element %q", elem))
 			}
 
-			if exclude {
-				cpus = slices.DeleteFunc(cpus, func(v uint) bool { return v == cpu })
+			if cpu := uint(ui64); exclude {
+				cset.Delete(cpu)
 			} else {
-				cpus = append(cpus, cpu)
+				cset.Add(cpu)
 			}
 
 		case 2:
-			var lowerBound uint
-			if _, err := fmt.Sscan(parts[0], &lowerBound); err != nil {
+			ui64, err := strconv.ParseUint(parts[0], partBase, partBitSize)
+			if err != nil {
 				return CPUSet{}, formatParseError(s, fmt.Sprintf("invalid lower bound %q in range %q", parts[0], elem))
 			}
 
-			var upperBound uint
-			if _, err := fmt.Sscan(parts[1], &upperBound); err != nil {
+			lowerBound := uint(ui64)
+
+			ui64, err = strconv.ParseUint(parts[1], partBase, partBitSize)
+			if err != nil {
 				return CPUSet{}, formatParseError(s, fmt.Sprintf("invalid upper bound %q in range %q", parts[1], elem))
 			}
+
+			upperBound := uint(ui64)
 
 			if upperBound < lowerBound {
 				return CPUSet{}, formatParseError(s, fmt.Sprintf("negative range %q", elem))
 			}
 
 			for i := range upperBound - lowerBound + 1 {
-				cpus = append(cpus, lowerBound+i)
+				cset.Add(uint(lowerBound + i))
 			}
 
 		default:
@@ -58,12 +67,12 @@ func ParseList(s string) (CPUSet, error) {
 		}
 	}
 
-	return Of(cpus...), nil
+	return cset, nil
 }
 
 // ListString encodes s into a list string.
 func (s *CPUSet) ListString() string {
-	if len(s.m) == 0 {
+	if s.Len() == 0 {
 		return ""
 	}
 
