@@ -27,6 +27,11 @@ func TestParseMask(t *testing.T) {
 			err:  formatParseError("xxxxxxxx", `invalid 32-bit word "xxxxxxxx"`),
 		},
 		{
+			name: `invalid 32-bit word "1"`,
+			s:    "1",
+			err:  formatParseError("1", `invalid 32-bit word "1"`),
+		},
+		{
 			name: "no bit set",
 			s:    "",
 			want: CPUSet{},
