@@ -59,7 +59,7 @@ func ParseList(s string) (cset CPUSet, _ error) {
 			}
 
 			for i := range upperBound - lowerBound + 1 {
-				cset.Add(uint(lowerBound + i))
+				cset.Add(lowerBound + i)
 			}
 
 		default:
