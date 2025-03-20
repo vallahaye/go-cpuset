@@ -25,7 +25,8 @@ builds:
     mod_timestamp: "{{ .CommitTimestamp }}"
 
 archives:
-  - format: binary
+  - formats:
+      - binary
     name_template: >-
       {{- .Binary }}-
       {{- title .Os }}-
