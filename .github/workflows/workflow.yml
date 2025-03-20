@@ -3,7 +3,7 @@ name: Lint, test and release
 on: push
 
 env:
-  DEVBOX_USE_VERSION: '0.13.7'
+  DEVBOX_USE_VERSION: '0.14.0'
 
 jobs:
   lint-test:
