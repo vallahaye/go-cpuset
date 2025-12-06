@@ -1,5 +1,8 @@
+version: "2"
 linters:
-  disable-all: true
+  default: none
+  enable:
+    - govet
+formatters:
   enable:
     - gofmt
-    - govet
