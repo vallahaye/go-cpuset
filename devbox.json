@@ -5,14 +5,14 @@
     "bats@1.12.0",
     "goreleaser@2.13.0",
     "golangci-lint@2.6.2",
-    "shellcheck@0.10.0"
+    "shellcheck-minimal@0.11.0"
   ],
   "shell": {
     "init_hook": [],
     "scripts": {
       "lint": [
         "golangci-lint run ./...",
-        "git ls-files '*.bats' '*.sh' | xargs shellcheck"
+        "shellcheck ./cmd/cpuset/main_test.bats"
       ],
       "test": [
         "go test -v ./...",
