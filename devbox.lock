@@ -1,51 +1,51 @@
 {
   "lockfile_version": "1",
   "packages": {
-    "bats@1.11.1": {
-      "last_modified": "2025-06-20T02:24:11Z",
-      "resolved": "github:NixOS/nixpkgs/076e8c6678d8c54204abcb4b1b14c366835a58bb#bats",
+    "bats@1.12.0": {
+      "last_modified": "2025-11-25T14:41:04Z",
+      "resolved": "github:NixOS/nixpkgs/dc205f7b4fdb04c8b7877b43edb7b73be7730081#bats",
       "source": "devbox-search",
-      "version": "1.11.1",
+      "version": "1.12.0",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/whjif7jimfg5kzydsjr80r4a3xwrvzl8-bats-1.11.1",
+              "path": "/nix/store/gfqwb6ransgiq41lbihm6fwqd7rbncnb-bats-1.12.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/whjif7jimfg5kzydsjr80r4a3xwrvzl8-bats-1.11.1"
+          "store_path": "/nix/store/gfqwb6ransgiq41lbihm6fwqd7rbncnb-bats-1.12.0"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/sga64j8wgf0wwpn1xggr2hc0ijsgyvlk-bats-1.11.1",
+              "path": "/nix/store/5cm59dnnfqhgvgn9ar1z4519hg9pczl0-bats-1.12.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/sga64j8wgf0wwpn1xggr2hc0ijsgyvlk-bats-1.11.1"
+          "store_path": "/nix/store/5cm59dnnfqhgvgn9ar1z4519hg9pczl0-bats-1.12.0"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/07h34ynvlcryaqcg4bjdgcs6qjd1f1py-bats-1.11.1",
+              "path": "/nix/store/0fnghy1l5vzrishx9gv39qsifhx6qj7b-bats-1.12.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/07h34ynvlcryaqcg4bjdgcs6qjd1f1py-bats-1.11.1"
+          "store_path": "/nix/store/0fnghy1l5vzrishx9gv39qsifhx6qj7b-bats-1.12.0"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/az8pn6fcgrf8lv7kv7jdjyghbfn9z15r-bats-1.11.1",
+              "path": "/nix/store/yb4bvacvpx4k6yasm22d7qvcy0gyfcy0-bats-1.12.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/az8pn6fcgrf8lv7kv7jdjyghbfn9z15r-bats-1.11.1"
+          "store_path": "/nix/store/yb4bvacvpx4k6yasm22d7qvcy0gyfcy0-bats-1.12.0"
         }
       }
     },
