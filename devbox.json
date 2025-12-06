@@ -4,7 +4,7 @@
     "go@1.24.11",
     "bats@1.11.1",
     "goreleaser@2.13.0",
-    "golangci-lint@1.64.8",
+    "golangci-lint@2.6.2",
     "shellcheck@0.10.0"
   ],
   "shell": {
